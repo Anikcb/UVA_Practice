@@ -1,1 +1,3 @@
-# UVA_Solved_Problems
+- [10229](https://github.com/Anikcb/UVA_Practice/blob/main/Solutions/10229.cpp)
+- [272](https://github.com/Anikcb/UVA_Practice/blob/main/Solutions/272.cpp)
+- [299](https://github.com/Anikcb/UVA_Practice/blob/main/Solutions/299.cpp)
