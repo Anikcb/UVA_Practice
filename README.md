@@ -6,3 +6,4 @@
 - [195](https://github.com/Anikcb/UVA_Practice/blob/main/Solutions/195.cpp)
 - [280](https://github.com/Anikcb/UVA_Practice/blob/main/Solutions/280.cpp)
 - [10776](https://github.com/Anikcb/UVA_Practice/blob/main/Solutions/10776.cpp)
+- [524](https://github.com/Anikcb/UVA_Practice/blob/main/Solutions/524.cpp)
