@@ -56,8 +56,7 @@ typedef unsigned long long ull;
 #define rep(i, x, n) for (ll i = x, _n = (n); i < _n; ++i)
 #define forIn(arr, num) for(ll i = 0; i < num; i++) cin>>arr[i];
 #define forIn1(arr, num) for(ll i = 1; i <= num; i++) cin>>arr[i];
-#define vpnt(ans) for(ll i = 0; i < ans.size(); i++) cout << ans[i] << (i + 1 < ans.size() ? ' ' : '\n');
-#define apnt(arr, num) for(ll i = 0; i < num; i++) cout << arr[i] << (i + 1 < num ? ' ' : '\n');
+
 
 
 /*** Define Values ***/
@@ -90,7 +89,8 @@ typedef unsigned long long ull;
 
 
 #define     all(v)            v.begin(),v.end()
-#define     mem(nam,val)      memset(nam, val, sizeof(nam))
+#define     memz(u)           memset(u, 0, sizeof u)
+#define     memn(u)           memset(u, -1, sizeof u)
 #define     ps(x,y)           fixed<<setprecision(y)<<x
 #define     for2D0(n,m)       for(ll i=0;i<n;i++)for(ll j=0;j<m;j++)
 #define     for2D1(n,m)       for(ll i=1;i<=n;i++)for(ll j=1;j<=m;j++)
@@ -120,8 +120,8 @@ typedef priority_queue<ll,vector<ll>,greater<ll> > npql;
 ///bool check(int N,int pos){return (bool)(N & (1<<pos));}
 ***/
 
-const int fx[] = {-1,-1,+0,+1,+1,+1,+0,-1};
-const int fy[] = {+0,+1,+1,+1,+0,-1,-1,-1};
+const int fx[] = {-1,-1,0,+1,+1,+1,0,-1}; ///King's move
+const int fy[] = {0,+1,+1,+1,0,-1,-1,-1}; ///king's Move
 
 
 /*** Grids
@@ -159,49 +159,31 @@ const int fy[] = {+0,+1,+1,+1,+0,-1,-1,-1};
 #define no cout << "NO" << '\n'
 #define yes cout << "YES" << '\n'
 
-ll n,m,k;
-char adj[1005][1005];
-ll d[1005][1005];
-bool vis[1005][1005];
+ll n,m;
+char ch[1005][1005];
+ll dis[1005][1005];
 
-bool check(ll x,ll y,ll vx,ll vy)
+void BFS(ll sx, ll sy)
 {
-    char ch=adj[vx][vy];
-    ll p=ch-'0';
-    if(vx+fx[p]==x && vy+fy[p]==y)return true;
-    return false;
-}
-
-void BFS_0_1(ll tx,ll ty)
-{
-    for2D0(n,m)d[i][j]=1e15,vis[i][j]=false;
-    d[tx][ty] = 0;
-    deque< pll > q;
-    q.push_front({tx,ty});
-    while (!q.empty())
+    for2D1(n,m)dis[i][j]=1e15;
+    deque< pll >q;
+    dis[sx][sy]=0;
+    q.push_back({sx,sy});
+    while(!q.empty())
     {
-        ll vx = q.front().ff;
-        ll vy = q.front().ss;
+        ll vx=q.front().ff,vy=q.front().ss;
         q.pop_front();
         foR0(8)
         {
-            ll x = vx+fx[i];
-            ll y = vy+fy[i];
-
-            if(x>=0 && x<n && y>=0 && y<m)
+            ll x=vx+fx[i],y=vy+fy[i];
+            if(x>=1 && x<=n && y>=1 && y<=m)
             {
-                if(check(x,y,vx,vy) && d[x][y] > d[vx][vy])
+                ll val=ch[vx][vy]-'0';
+                if(dis[vx][vy]+(val!=i)<dis[x][y])
                 {
-                    q.push_front(make_pair(x, y));
-                    d[x][y] = d[vx][vy];
-                }
-                else if(!check(x,y,vx,vy))
-                {
-                    if(d[x][y] > d[vx][vy] + 1)
-                    {
-                        q.push_back(make_pair(x, y));
-                        d[x][y] = d[vx][vy] + 1;
-                    }
+                    if(val==i)q.push_front({x,y});
+                    else q.push_back({x,y});
+                    dis[x][y]=dis[vx][vy]+(val!=i);
                 }
             }
         }
@@ -209,24 +191,23 @@ void BFS_0_1(ll tx,ll ty)
 }
 
 
-
 int main()
 {
     IOS;
     ll tst=1;
-//    cin>>tst;
+    //cin>>tst;
     for(ll tt=1; tt<=tst; tt++)
     {
         //code
-        ll a,b,c,e;
         cin>>n>>m;
-        for2D0(n,m)cin>>adj[i][j];
-        cin>>k;
-        foR1(k)
+        for2D1(n,m)cin>>ch[i][j];
+        ll q,a,b,c,d;
+        cin>>q;
+        while(q--)
         {
-            cin>>a>>b>>c>>e;
-            BFS_0_1(a-1,b-1);
-            cout<<d[c-1][e-1]<<endl;
+            cin>>a>>b>>c>>d;
+            BFS(a,b);
+            cout<<dis[c][d]<<endl;
         }
 
 
